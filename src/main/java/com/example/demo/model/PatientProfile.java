@@ -1,40 +1,13 @@
-package com.example.demo.model;
+package com.example.demo.repository;
 
-import jakarta.persistence.*;
-import lombok.Data;
+import com.example.demo.model.PatientProfile;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.time.LocalDateTime;
+import java.util.Optional;
 
-@Entity
-@Table(
-    name = "patient_profiles",
-    uniqueConstraints = {
-        @UniqueConstraint(columnNames = "patientId"),
-        @UniqueConstraint(columnNames = "email")
-    }
-)
-@Data
-public class PatientProfile {
+public interface PatientProfileRepository extends JpaRepository<PatientProfile, Long> {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    Optional<PatientProfile> findByEmail(String email);
 
-    @Column(nullable = false, unique = true)
-    private String patientId;
-
-    @Column(nullable = false)
-    private String fullName;
-
-    private Integer age;
-
-    @Column(nullable = false, unique = true)
-    private String email;
-
-    @Column(nullable = false)
-    private String surgeryType;
-
-    private Boolean active = true;
-
-    private LocalDateTime createdAt = LocalDateTime.now();
+    Optional<PatientProfile> findByPatientId(String patientId);
 }
