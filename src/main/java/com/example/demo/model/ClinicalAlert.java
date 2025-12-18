@@ -1,12 +1,20 @@
-package com.example.demo.repository;
+package com.example.demo.model;
 
-import com.example.demo.model.ClinicalAlert;
-import org.springframework.data.jpa.repository.JpaRepository;
+import jakarta.persistence.*;
+import lombok.Data;
 
-import java.util.List;
+@Entity
+@Data
+public class ClinicalAlert {
 
-public interface ClinicalAlertRepository
-        extends JpaRepository<ClinicalAlert, Long> {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    List<ClinicalAlert> findByPatientId(Long patientId);
+    private String message;
+
+    private Boolean resolved = false;
+
+    @ManyToOne
+    private PatientProfile patient;
 }
