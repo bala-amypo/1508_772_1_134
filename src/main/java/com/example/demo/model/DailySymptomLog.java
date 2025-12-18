@@ -1,19 +1,10 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(
-    name = "daily_symptom_logs",
-    uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"patient_id", "logDate"})
-    }
-)
-@Data
 public class DailySymptomLog {
 
     @Id
@@ -21,10 +12,8 @@ public class DailySymptomLog {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "patient_id", nullable = false)
     private PatientProfile patient;
 
-    @Column(nullable = false)
     private LocalDate logDate;
 
     private Integer painLevel;
@@ -33,5 +22,65 @@ public class DailySymptomLog {
 
     private String notes;
 
-    private LocalDateTime submittedAt = LocalDateTime.now();
+    private LocalDateTime submittedAt;
+
+    public Long getId() {
+        return id;
+    }
+
+    public PatientProfile getPatient() {
+        return patient;
+    }
+
+    public void setPatient(PatientProfile patient) {
+        this.patient = patient;
+    }
+
+    public LocalDate getLogDate() {
+        return logDate;
+    }
+
+    public void setLogDate(LocalDate logDate) {
+        this.logDate = logDate;
+    }
+
+    public Integer getPainLevel() {
+        return painLevel;
+    }
+
+    public void setPainLevel(Integer painLevel) {
+        this.painLevel = painLevel;
+    }
+
+    public Integer getMobilityLevel() {
+        return mobilityLevel;
+    }
+
+    public void setMobilityLevel(Integer mobilityLevel) {
+        this.mobilityLevel = mobilityLevel;
+    }
+
+    public Integer getFatigueLevel() {
+        return fatigueLevel;
+    }
+
+    public void setFatigueLevel(Integer fatigueLevel) {
+        this.fatigueLevel = fatigueLevel;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
+    public LocalDateTime getSubmittedAt() {
+        return submittedAt;
+    }
+
+    public void setSubmittedAt(LocalDateTime submittedAt) {
+        this.submittedAt = submittedAt;
+    }
 }

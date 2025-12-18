@@ -1,26 +1,55 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
 
 @Entity
-@Table(name = "deviation_rules")
-@Data
 public class DeviationRule {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
     private String surgeryType;
 
-    @Column(nullable = false)
-    private String symptomParameter; 
-    // pain / mobility / fatigue
+    private String symptomParameter;
 
-    @Column(nullable = false)
     private Integer thresholdDeviation;
 
-    private Boolean active = true;
+    private Boolean active;
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getSurgeryType() {
+        return surgeryType;
+    }
+
+    public void setSurgeryType(String surgeryType) {
+        this.surgeryType = surgeryType;
+    }
+
+    public String getSymptomParameter() {
+        return symptomParameter;
+    }
+
+    public void setSymptomParameter(String symptomParameter) {
+        this.symptomParameter = symptomParameter;
+    }
+
+    public Integer getThresholdDeviation() {
+        return thresholdDeviation;
+    }
+
+    public void setThresholdDeviation(Integer thresholdDeviation) {
+        this.thresholdDeviation = thresholdDeviation;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
 }
