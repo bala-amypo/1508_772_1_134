@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
 @RestController
 @RequestMapping("/api/recovery-curves")
 public class RecoveryCurveProfileController {
@@ -17,13 +16,11 @@ public class RecoveryCurveProfileController {
     public RecoveryCurveProfileController(RecoveryCurveProfileService service) {
         this.service = service;
     }
-
     @PostMapping
     public ResponseEntity<RecoveryCurveProfile> create(
             @RequestBody RecoveryCurveProfile profile) {
         return new ResponseEntity<>(service.create(profile), HttpStatus.CREATED);
     }
-
     @GetMapping
     public ResponseEntity<List<RecoveryCurveProfile>> getAll() {
         return ResponseEntity.ok(service.getAll());
