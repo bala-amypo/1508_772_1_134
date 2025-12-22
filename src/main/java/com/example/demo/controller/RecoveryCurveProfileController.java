@@ -40,3 +40,4 @@ public class RecoveryCurveProfileController {
         return ResponseEntity.noContent().build();
     }
 }
+
