@@ -18,7 +18,6 @@ public class PatientProfileController {
         this.service = service;
     }
 
-    // ✅ Create Patient Profile
     @PostMapping
     public ResponseEntity<PatientProfile> createProfile(
             @RequestBody PatientProfile profile) {
@@ -27,19 +26,18 @@ public class PatientProfileController {
         return new ResponseEntity<>(savedProfile, HttpStatus.CREATED);
     }
 
-    // ✅ Get All Patient Profiles
     @GetMapping
     public ResponseEntity<List<PatientProfile>> getAllProfiles() {
         return ResponseEntity.ok(service.getAllProfiles());
     }
 
-    // ✅ Get Patient Profile by ID
+  
     @GetMapping("/{id}")
     public ResponseEntity<PatientProfile> getProfileById(@PathVariable Long id) {
         return ResponseEntity.ok(service.getProfileById(id));
     }
 
-    // ✅ Update Patient Profile
+   
     @PutMapping("/{id}")
     public ResponseEntity<PatientProfile> updateProfile(
             @PathVariable Long id,
@@ -48,7 +46,7 @@ public class PatientProfileController {
         return ResponseEntity.ok(service.updateProfile(id, profile));
     }
 
-    // ✅ Delete Patient Profile
+   
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProfile(@PathVariable Long id) {
         service.deleteProfile(id);

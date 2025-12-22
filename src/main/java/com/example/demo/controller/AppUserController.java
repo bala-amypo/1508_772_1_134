@@ -16,14 +16,14 @@ public class AppUserController {
         this.service = service;
     }
 
-    // ✅ Register User
+  
     @PostMapping("/register")
     public ResponseEntity<AppUser> register(@RequestBody AppUser user) {
         AppUser savedUser = service.register(user);
         return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
     }
 
-    // ✅ Login User
+    
     @PostMapping("/login")
     public ResponseEntity<AppUser> login(@RequestBody AppUser user) {
         AppUser loggedUser =
