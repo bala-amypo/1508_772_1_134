@@ -9,9 +9,6 @@ import java.util.List;
 @Repository
 public interface ClinicalAlertRepository extends JpaRepository<ClinicalAlert, Long> {
 
-    // Find all alerts for a specific user
     List<ClinicalAlert> findByUserId(Long userId);
-
-    // Optional: Find alerts by type
     List<ClinicalAlert> findByAlertType(String alertType);
 }
