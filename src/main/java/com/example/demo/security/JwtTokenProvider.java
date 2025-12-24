@@ -7,45 +7,38 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
-import java.util.function.Function;
 
 @Component
 public class JwtTokenProvider {
 
-    private static final String SECRET_KEY = "postSurgerySecretKey12345";
-    private static final long EXPIRATION_TIME = 1000 * 60 * 60; // 1 hour
+    private final String SECRET_KEY = "mysecretkey123456";
 
+    // Generate token
     public String generateToken(UserDetails userDetails) {
         return Jwts.builder()
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)) // 10 hours
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
                 .compact();
     }
 
+    // Extract username
     public String extractUsername(String token) {
-        return extractClaim(token, Claims::getSubject);
+        return extractClaims(token).getSubject();
     }
 
-    public Date extractExpiration(String token) {
-        return extractClaim(token, Claims::getExpiration);
-    }
-
+    // Validate token
     public boolean validateToken(String token, UserDetails userDetails) {
-        final String username = extractUsername(token);
-        return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
+        return extractUsername(token).equals(userDetails.getUsername())
+                && !extractClaims(token).getExpiration().before(new Date());
     }
 
-    private boolean isTokenExpired(String token) {
-        return extractExpiration(token).before(new Date());
-    }
-
-    private <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
-        final Claims claims = Jwts.parser()
+    // Extract claims
+    private Claims extractClaims(String token) {
+        return Jwts.parser()
                 .setSigningKey(SECRET_KEY)
                 .parseClaimsJws(token)
                 .getBody();
-        return claimsResolver.apply(claims);
     }
 }
