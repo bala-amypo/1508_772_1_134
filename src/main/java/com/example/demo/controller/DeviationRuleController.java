@@ -3,8 +3,8 @@ package com.example.demo.controller;
 import com.example.demo.model.DeviationRule;
 import com.example.demo.service.DeviationRuleService;
 
-import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -46,7 +46,4 @@ public class DeviationRuleController {
 
     @Operation(summary = "Update deviation rule")
     @PutMapping("/{id}")
-    public ResponseEntity<DeviationRule> updateRule(
-            @PathVariable Long id,
-            @RequestBody DeviationRule rule) {
-        return ResponseEntity.ok(deviation
+    public ResponseEntity<DeviationRule>
