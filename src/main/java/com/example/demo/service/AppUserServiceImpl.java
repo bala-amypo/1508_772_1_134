@@ -1,7 +1,7 @@
-package com.recoverytracker.service;
+package com.example.demo.service;
 
-import com.recoverytracker.model.AppUser;
-import com.recoverytracker.repository.AppUserRepository;
+import com.example.demo.model.AppUser;
+import com.example.demo.repository.AppUserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,13 +17,6 @@ public class AppUserServiceImpl implements AppUserService {
     @Override
     public AppUser createUser(AppUser user) {
         return appUserRepository.save(user);
-    }
-
-    @Override
-    public boolean login(String email, String password) {
-        return appUserRepository.findByEmail(email)
-                .map(user -> user.getPassword().equals(password))
-                .orElse(false);
     }
 
     @Override

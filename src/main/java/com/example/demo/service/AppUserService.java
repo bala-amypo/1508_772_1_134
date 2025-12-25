@@ -1,14 +1,12 @@
-package com.recoverytracker.service;
+package com.example.demo.service;
 
-import com.recoverytracker.model.AppUser;
+import com.example.demo.model.AppUser;
 
 import java.util.List;
 
 public interface AppUserService {
 
     AppUser createUser(AppUser user);
-
-    boolean login(String email, String password);
 
     List<AppUser> getAllUsers();
 

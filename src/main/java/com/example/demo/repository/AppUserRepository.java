@@ -1,6 +1,6 @@
-package com.recoverytracker.repository;
+package com.example.demo.repository;
 
-import com.recoverytracker.model.AppUser;
+import com.example.demo.model.AppUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
