@@ -107,13 +107,13 @@
     <build>
         <plugins>
 
-            <!-- Spring Boot -->
+            <!-- Spring Boot Plugin -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
 
-            <!-- 🔥 REQUIRED: Lombok Annotation Processing -->
+            <!-- Maven Compiler Plugin (Lombok Annotation Processing) -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -131,7 +131,7 @@
                 </configuration>
             </plugin>
 
-            <!-- TestNG -->
+            <!-- Maven Surefire Plugin (TestNG) -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
