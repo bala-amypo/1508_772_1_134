@@ -12,6 +12,7 @@ public class AuthServiceImpl implements AuthService {
         return AppUser.builder()
                 .email(email)
                 .password(password)
+                .role("USER")
                 .build();
     }
 
