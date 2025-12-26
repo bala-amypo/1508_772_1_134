@@ -2,6 +2,8 @@ package com.example.demo.service;
 
 import com.example.demo.model.ClinicalAlert;
 import com.example.demo.repository.ClinicalAlertRepository;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,11 +11,8 @@ import java.util.List;
 @Service
 public class ClinicalAlertServiceImpl implements ClinicalAlertService {
 
-    private final ClinicalAlertRepository clinicalAlertRepository;
-
-    public ClinicalAlertServiceImpl(ClinicalAlertRepository clinicalAlertRepository) {
-        this.clinicalAlertRepository = clinicalAlertRepository;
-    }
+    @Autowired
+    private ClinicalAlertRepository clinicalAlertRepository;
 
     @Override
     public ClinicalAlert createAlert(ClinicalAlert alert) {
