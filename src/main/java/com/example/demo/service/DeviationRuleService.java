@@ -1,20 +1,12 @@
 package com.example.demo.service;
 
 import com.example.demo.model.DeviationRule;
-
-import java.util.List;
+import java.util.*;
 
 public interface DeviationRuleService {
-
     DeviationRule createRule(DeviationRule rule);
-
-    List<DeviationRule> getAllRules();
-
-    DeviationRule getRuleById(Long id);
-
-    List<DeviationRule> getRulesByMetricName(String metricName);
-
     DeviationRule updateRule(Long id, DeviationRule rule);
-
-    void deleteRule(Long id);
+    List<DeviationRule> getAllRules();
+    List<DeviationRule> getActiveRules();
+    Optional<DeviationRule> getRuleByCode(String ruleCode);
 }
