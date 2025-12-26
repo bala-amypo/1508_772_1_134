@@ -1,48 +1,40 @@
-package com.example.demo.service;
+package com.example.demo.service.impl;
 
-import com.example.demo.model.ClinicalAlert;
-import com.example.demo.repository.ClinicalAlertRepository;
+import com.example.demo.exception.ResourceNotFoundException;
+import com.example.demo.model.ClinicalAlertRecord;
+import com.example.demo.repository.ClinicalAlertRecordRepository;
+import com.example.demo.service.ClinicalAlertService;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import java.util.*;
 
-import java.util.List;
-
-@Service
 public class ClinicalAlertServiceImpl implements ClinicalAlertService {
 
-    @Autowired
-    private ClinicalAlertRepository clinicalAlertRepository;
+    private final ClinicalAlertRecordRepository repo;
 
-    @Override
-    public ClinicalAlert createAlert(ClinicalAlert alert) {
-        return clinicalAlertRepository.save(alert);
+    public ClinicalAlertServiceImpl(ClinicalAlertRecordRepository repo) {
+        this.repo = repo;
     }
 
-    @Override
-    public List<ClinicalAlert> getAllAlerts() {
-        return clinicalAlertRepository.findAll();
+    public ClinicalAlertRecord createAlert(ClinicalAlertRecord alert) {
+        return repo.save(alert);
     }
 
-    @Override
-    public ClinicalAlert getAlertById(Long id) {
-        return clinicalAlertRepository.findById(id).orElseThrow();
-    }
-
-    @Override
-    public List<ClinicalAlert> getAlertsBySeverity(String severity) {
-        return clinicalAlertRepository.findBySeverity(severity);
-    }
-
-    @Override
-    public List<ClinicalAlert> getUnresolvedAlerts() {
-        return clinicalAlertRepository.findByResolved(false);
-    }
-
-    @Override
-    public ClinicalAlert resolveAlert(Long id) {
-        ClinicalAlert alert = clinicalAlertRepository.findById(id).orElseThrow();
+    public ClinicalAlertRecord resolveAlert(Long id) {
+        ClinicalAlertRecord alert = repo.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Alert not found"));
         alert.setResolved(true);
-        return clinicalAlertRepository.save(alert);
+        return repo.save(alert);
+    }
+
+    public List<ClinicalAlertRecord> getAlertsByPatient(Long patientId) {
+        return repo.findByPatientId(patientId);
+    }
+
+    public List<ClinicalAlertRecord> getAllAlerts() {
+        return repo.findAll();
+    }
+
+    public Optional<ClinicalAlertRecord> getAlertById(Long id) {
+        return repo.findById(id);
     }
 }
