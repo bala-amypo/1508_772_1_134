@@ -2,8 +2,6 @@ package com.example.demo.service;
 
 import com.example.demo.model.DeviationRule;
 import com.example.demo.repository.DeviationRuleRepository;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,8 +9,11 @@ import java.util.List;
 @Service
 public class DeviationRuleServiceImpl implements DeviationRuleService {
 
-    @Autowired
-    private DeviationRuleRepository deviationRuleRepository;
+    private final DeviationRuleRepository deviationRuleRepository;
+
+    public DeviationRuleServiceImpl(DeviationRuleRepository deviationRuleRepository) {
+        this.deviationRuleRepository = deviationRuleRepository;
+    }
 
     @Override
     public DeviationRule createRule(DeviationRule rule) {
@@ -50,3 +51,4 @@ public class DeviationRuleServiceImpl implements DeviationRuleService {
         deviationRuleRepository.deleteById(id);
     }
 }
+    

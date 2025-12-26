@@ -1,5 +1,6 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.model.AppUser;
 import com.example.demo.repository.AppUserRepository;
 import com.example.demo.security.JwtTokenProvider;
 import com.example.demo.service.AuthService;
@@ -25,5 +26,12 @@ public class AuthServiceImpl implements AuthService {
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
         this.jwtTokenProvider = jwtTokenProvider;
+    }
+
+    @Override
+    public AppUser register(AppUser user) {
+        // Encode password before saving
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        return appUserRepository.save(user);
     }
 }
