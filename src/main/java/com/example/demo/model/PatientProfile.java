@@ -3,10 +3,9 @@ package com.example.demo.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "patient_profile")
 @Data
 @Builder
 @NoArgsConstructor
@@ -17,22 +16,17 @@ public class PatientProfile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // REQUIRED BY TESTS
+    @Column(unique = true)
     private String patientId;
 
-    // REQUIRED BY TESTS
     private String fullName;
+    private Integer age;
 
-    // REQUIRED BY TESTS
+    @Column(unique = true)
     private String email;
 
-    private String patientName;
-    private Integer age;
-    private String gender;
-    private String diagnosis;
-    private LocalDate surgeryDate;
-    private String recoveryPhase;
-
-    // REQUIRED BY TESTS
+    private String surgeryType;
     private Boolean active;
+
+    private LocalDateTime createdAt;
 }
