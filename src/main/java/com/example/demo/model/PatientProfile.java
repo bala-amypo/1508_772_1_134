@@ -17,16 +17,17 @@ public class PatientProfile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    // 🔴 REQUIRED BY TESTS
+    @Column(unique = true)
+    private String patientId;
+
     private String patientName;
-
     private Integer age;
-
     private String gender;
-
     private String diagnosis;
-
     private LocalDate surgeryDate;
-
     private String recoveryPhase;
+
+    // 🔴 REQUIRED BY TESTS
+    private Boolean active;
 }
