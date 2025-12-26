@@ -4,7 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -14,11 +15,11 @@ public class DeviationRule {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
-    private String ruleCode;
+    @Builder.Default
+    private Integer threshold = 0;
 
+    private String ruleCode;
     private String parameter;
-    private Integer threshold;
     private String severity;
     private Boolean active = true;
 }
