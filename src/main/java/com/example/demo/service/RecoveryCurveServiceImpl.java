@@ -7,11 +7,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class RecoveryCurveProfileServiceImpl implements RecoveryCurveProfileService {
+public class RecoveryCurveServiceImpl implements RecoveryCurveService {
 
     private final RecoveryCurveProfileRepository repository;
 
-    public RecoveryCurveProfileServiceImpl(RecoveryCurveProfileRepository repository) {
+    public RecoveryCurveServiceImpl(RecoveryCurveProfileRepository repository) {
         this.repository = repository;
     }
 
@@ -22,8 +22,7 @@ public class RecoveryCurveProfileServiceImpl implements RecoveryCurveProfileServ
 
     @Override
     public RecoveryCurveProfile getProfileById(Long id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("RecoveryCurveProfile not found"));
+        return repository.findById(id).orElse(null);
     }
 
     @Override
@@ -38,13 +37,8 @@ public class RecoveryCurveProfileServiceImpl implements RecoveryCurveProfileServ
 
     @Override
     public RecoveryCurveProfile updateProfile(Long id, RecoveryCurveProfile profile) {
-        RecoveryCurveProfile existing = getProfileById(id);
-
-        existing.setMetricName(profile.getMetricName());
-        existing.setExpectedValue(profile.getExpectedValue());
-        existing.setTimePoint(profile.getTimePoint());
-
-        return repository.save(existing);
+        profile.setId(id);
+        return repository.save(profile);
     }
 
     @Override
