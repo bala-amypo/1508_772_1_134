@@ -8,7 +8,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/recovery-curves")
-public class RecoveryCurveController {
+public class RecoveryCurveProfileController {
 
     private final RecoveryCurveService service;
 
