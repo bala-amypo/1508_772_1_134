@@ -1,3 +1,4 @@
+// RecoveryCurveProfileRepository.java
 package com.example.demo.repository;
 
 import com.example.demo.model.RecoveryCurveProfile;
@@ -8,5 +9,5 @@ import java.util.List;
 public interface RecoveryCurveProfileRepository
         extends JpaRepository<RecoveryCurveProfile, Long> {
 
-    List<RecoveryCurveProfile> findByMetricName(String metricName);
+    List<RecoveryCurveProfile> findBySurgeryTypeOrderByDayNumberAsc(String surgeryType);
 }
