@@ -1,43 +1,65 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.exception.ResourceNotFoundException;
-import com.example.demo.model.DeviationRule;
-import com.example.demo.repository.DeviationRuleRepository;
-import com.example.demo.service.DeviationRuleService;
+import com.example.demo.model.*;
+import com.example.demo.repository.*;
+import com.example.demo.service.*;
 
-import java.util.*;
+import java.time.LocalDate;
+import java.util.List;
 
-public class DeviationRuleServiceImpl implements DeviationRuleService {
+public class DailySymptomLogServiceImpl implements DailySymptomLogService {
 
-    private final DeviationRuleRepository repo;
+    private final DailySymptomLogRepository logRepo;
+    private final PatientProfileRepository patientRepo;
+    private final RecoveryCurveService recoveryCurveService;
+    private final DeviationRuleService deviationRuleService;
+    private final ClinicalAlertService alertService;
 
-    public DeviationRuleServiceImpl(DeviationRuleRepository repo) {
-        this.repo = repo;
+    public DailySymptomLogServiceImpl(
+            DailySymptomLogRepository logRepo,
+            PatientProfileRepository patientRepo,
+            RecoveryCurveService recoveryCurveService,
+            DeviationRuleService deviationRuleService,
+            ClinicalAlertService alertService) {
+
+        this.logRepo = logRepo;
+        this.patientRepo = patientRepo;
+        this.recoveryCurveService = recoveryCurveService;
+        this.deviationRuleService = deviationRuleService;
+        this.alertService = alertService;
     }
 
-    public DeviationRule createRule(DeviationRule rule) {
-        if (rule.getThreshold() == null || rule.getThreshold() <= 0) {
-            throw new IllegalArgumentException("Threshold must be positive");
+    public DailySymptomLog recordSymptomLog(DailySymptomLog log) {
+
+        patientRepo.findById(log.getPatientId())
+                .orElseThrow(() -> new ResourceNotFoundException("Patient not found"));
+
+        if (log.getLogDate().isAfter(LocalDate.now())) {
+            throw new IllegalArgumentException("future date");
         }
-        return repo.save(rule);
+
+        logRepo.findByPatientIdAndLogDate(log.getPatientId(), log.getLogDate())
+                .ifPresent(l -> {
+                    throw new IllegalArgumentException("Duplicate daily log");
+                });
+
+        return logRepo.save(log);
     }
 
-    public DeviationRule updateRule(Long id, DeviationRule rule) {
-        DeviationRule existing = repo.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Rule not found"));
-        rule.setId(existing.getId());
-        return repo.save(rule);
+    public DailySymptomLog updateSymptomLog(Long id, DailySymptomLog updated) {
+        DailySymptomLog existing = logRepo.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Log not found"));
+
+        updated.setId(existing.getId());
+        updated.setPatientId(existing.getPatientId());
+
+        return logRepo.save(updated);
     }
 
-    public List<DeviationRule> getAllRules() {
-        return repo.findAll();
-    }
-
-    public List<DeviationRule> getActiveRules() {
-        return repo.findByActiveTrue();
-    }
-
-    public Optional<DeviationRule> getRuleByCode(String ruleCode) {
-        return repo.findByRuleCode(ruleCode);
+    public List<DailySymptomLog> getLogsByPatient(Long patientId) {
+        patientRepo.findById(patientId)
+                .orElseThrow(() -> new ResourceNotFoundException("Patient not found"));
+        return logRepo.findByPatientId(patientId);
     }
 }
