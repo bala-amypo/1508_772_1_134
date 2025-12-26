@@ -2,7 +2,11 @@ package com.example.demo.repository;
 
 import com.example.demo.model.ClinicalAlert;
 import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
 
-public interface ClinicalAlertRecordRepository
+public interface ClinicalAlertRepository
         extends JpaRepository<ClinicalAlert, Long> {
+
+    List<ClinicalAlert> findBySeverity(String severity);
+    List<ClinicalAlert> findByResolved(boolean resolved);
 }
