@@ -10,17 +10,11 @@ public class RecoveryCurveProfile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
     private String metricName;
-
-    @Column(nullable = false)
     private Double expectedValue;
-
-    @Column(nullable = false)
     private Integer timePoint;
 
-    public RecoveryCurveProfile() {
-    }
+    public RecoveryCurveProfile() {}
 
     public Long getId() {
         return id;

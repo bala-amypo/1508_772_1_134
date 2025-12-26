@@ -16,8 +16,7 @@ public class DeviationRule {
     private String conditionType;
     private String alertMessage;
 
-    public DeviationRule() {
-    }
+    public DeviationRule() {}
 
     public Long getId() {
         return id;
@@ -67,3 +66,4 @@ public class DeviationRule {
         this.alertMessage = alertMessage;
     }
 }
+    

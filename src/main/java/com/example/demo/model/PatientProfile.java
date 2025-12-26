@@ -17,9 +17,14 @@ public class PatientProfile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // Required by tests
-    @Column(unique = true)
+    // REQUIRED BY TESTS
     private String patientId;
+
+    // REQUIRED BY TESTS
+    private String fullName;
+
+    // REQUIRED BY TESTS
+    private String email;
 
     private String patientName;
     private Integer age;
@@ -28,6 +33,6 @@ public class PatientProfile {
     private LocalDate surgeryDate;
     private String recoveryPhase;
 
-    // Required by tests
+    // REQUIRED BY TESTS
     private Boolean active;
 }
