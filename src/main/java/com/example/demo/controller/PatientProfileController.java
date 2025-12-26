@@ -2,9 +2,6 @@ package com.example.demo.controller;
 
 import com.example.demo.model.PatientProfile;
 import com.example.demo.service.PatientProfileService;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,34 +10,31 @@ import java.util.List;
 @RequestMapping("/api/patients")
 public class PatientProfileController {
 
-    @Autowired
-    private PatientProfileService patientProfileService;
+    private final PatientProfileService service;
 
-    @PostMapping
-    public ResponseEntity<PatientProfile> createPatient(@RequestBody PatientProfile patientProfile) {
-        return ResponseEntity.ok(patientProfileService.createPatient(patientProfile));
+    public PatientProfileController(PatientProfileService service) {
+        this.service = service;
     }
 
-    @GetMapping
-    public ResponseEntity<List<PatientProfile>> getAllPatients() {
-        return ResponseEntity.ok(patientProfileService.getAllPatients());
+    @PostMapping
+    public PatientProfile create(@RequestBody PatientProfile p) {
+        return service.createPatient(p);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PatientProfile> getPatientById(@PathVariable Long id) {
-        return ResponseEntity.ok(patientProfileService.getPatientById(id));
+    public PatientProfile get(@PathVariable Long id) {
+        return service.getPatientById(id);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<PatientProfile> updatePatient(
+    @GetMapping
+    public List<PatientProfile> getAll() {
+        return service.getAllPatients();
+    }
+
+    @PutMapping("/{id}/status")
+    public PatientProfile updateStatus(
             @PathVariable Long id,
-            @RequestBody PatientProfile patientProfile) {
-        return ResponseEntity.ok(patientProfileService.updatePatient(id, patientProfile));
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deletePatient(@PathVariable Long id) {
-        patientProfileService.deletePatient(id);
-        return ResponseEntity.ok("Patient deleted successfully");
+            @RequestParam boolean active) {
+        return service.updatePatientStatus(id, active);
     }
 }
