@@ -1,56 +1,19 @@
 package com.example.demo.service;
 
 import com.example.demo.model.RecoveryCurveProfile;
-import com.example.demo.repository.RecoveryCurveProfileRepository;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 
-@Service
-public class RecoveryCurveServiceImpl implements RecoveryCurveService {
+public interface RecoveryCurveProfileService {
 
-    private final RecoveryCurveProfileRepository repository;
+    RecoveryCurveProfile createProfile(RecoveryCurveProfile profile);
 
-    public RecoveryCurveServiceImpl(RecoveryCurveProfileRepository repository) {
-        this.repository = repository;
-    }
+    RecoveryCurveProfile getProfileById(Long id);
 
-    @Override
-    public RecoveryCurveProfile createProfile(RecoveryCurveProfile profile) {
-        return repository.save(profile);
-    }
+    List<RecoveryCurveProfile> getAllProfiles();
 
-    @Override
-    public RecoveryCurveProfile getProfileById(Long id) {
-        return repository.findById(id).orElse(null);
-    }
+    List<RecoveryCurveProfile> getProfilesByMetricName(String metricName);
 
-    @Override
-    public List<RecoveryCurveProfile> getAllProfiles() {
-        return repository.findAll();
-    }
+    RecoveryCurveProfile updateProfile(Long id, RecoveryCurveProfile profile);
 
-    @Override
-    public List<RecoveryCurveProfile> getProfilesByMetricName(String metricName) {
-        return repository.findByMetricName(metricName);
-    }
-
-    @Override
-    public RecoveryCurveProfile updateProfile(Long id, RecoveryCurveProfile profile) {
-        RecoveryCurveProfile existing = repository.findById(id).orElse(null);
-        if (existing == null) {
-            return null;
-        }
-
-        existing.setMetricName(profile.getMetricName());
-        existing.setExpectedValue(profile.getExpectedValue());
-        existing.setTimePoint(profile.getTimePoint());
-
-        return repository.save(existing);
-    }
-
-    @Override
-    public void deleteProfile(Long id) {
-        repository.deleteById(id);
-    }
+    void deleteProfile(Long id);
 }
