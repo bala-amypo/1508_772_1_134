@@ -1,7 +1,5 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.dto.AuthResponse;
-import com.example.demo.dto.RegisterRequest;
 import com.example.demo.model.AppUser;
 import com.example.demo.repository.AppUserRepository;
 import com.example.demo.service.AuthService;
@@ -21,17 +19,16 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public AuthResponse register(RegisterRequest request) {
+    public AppUser register(AppUser user) {
 
-        AppUser user = AppUser.builder()
-                .name(request.getFullName())   // 👈 map fullName → name
-                .email(request.getEmail())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .role("PATIENT")
-                .build();
+        // encode password
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-        appUserRepository.save(user);
+        // default role if not set
+        if (user.getRole() == null) {
+            user.setRole("PATIENT");
+        }
 
-        return new AuthResponse(user.getEmail(), "dummy-token");
+        return appUserRepository.save(user);
     }
 }
