@@ -4,25 +4,23 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "users")
+@Table(name = "app_users")
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class AppUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // REQUIRED BY TESTS (instead of fullName)
-    private String name;
-
-    @Column(unique = true, nullable = false)
+    @Column(unique = true)
     private String email;
 
     private String password;
+    private String fullName;
 
-    // KEEP AS STRING (NO UserRole enum)
-    private String role;
+    @Enumerated(EnumType.STRING)
+    private UserRole role;
 }
