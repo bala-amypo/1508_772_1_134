@@ -44,4 +44,10 @@ public class PatientProfileServiceImpl implements PatientProfileService {
     public void deletePatient(Long id) {
         patientProfileRepository.deleteById(id);
     }
+    @Override
+    public PatientProfile updatePatientStatus(Long id, boolean active) {
+        PatientProfile patient = patientProfileRepository.findById(id).orElseThrow();
+        patient.setActive(active);
+        return patientProfileRepository.save(patient);
+    }
 }

@@ -12,13 +12,9 @@ public class ClinicalAlert {
     private Long id;
 
     private String alertType;
-
     private String message;
-
     private String severity;
-
     private boolean resolved;
-
     private LocalDateTime createdAt;
 
     public ClinicalAlert() {

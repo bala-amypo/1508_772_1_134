@@ -11,13 +11,9 @@ public class DeviationRule {
     private Long id;
 
     private String metricName;
-
     private Double minValue;
-
     private Double maxValue;
-
     private String conditionType;
-
     private String alertMessage;
 
     public DeviationRule() {

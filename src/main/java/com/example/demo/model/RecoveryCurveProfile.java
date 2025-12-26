@@ -17,7 +17,7 @@ public class RecoveryCurveProfile {
     private Double expectedValue;
 
     @Column(nullable = false)
-    private Integer timePoint;   // ✅ THIS WAS MISSING
+    private Integer timePoint;
 
     public RecoveryCurveProfile() {
     }
@@ -46,11 +46,11 @@ public class RecoveryCurveProfile {
         this.expectedValue = expectedValue;
     }
 
-    public Integer getTimePoint() {        // ✅ REQUIRED GETTER
+    public Integer getTimePoint() {
         return timePoint;
     }
 
-    public void setTimePoint(Integer timePoint) {   // ✅ REQUIRED SETTER
+    public void setTimePoint(Integer timePoint) {
         this.timePoint = timePoint;
     }
 }
