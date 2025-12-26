@@ -1,53 +1,40 @@
-package com.example.demo.service;
+package com.example.demo.service.impl;
 
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.PatientProfile;
 import com.example.demo.repository.PatientProfileRepository;
-import org.springframework.stereotype.Service;
+import com.example.demo.service.PatientProfileService;
 
-import java.util.List;
+import java.util.*;
 
-@Service
 public class PatientProfileServiceImpl implements PatientProfileService {
 
-    private final PatientProfileRepository patientProfileRepository;
+    private final PatientProfileRepository repo;
 
-    public PatientProfileServiceImpl(PatientProfileRepository patientProfileRepository) {
-        this.patientProfileRepository = patientProfileRepository;
+    public PatientProfileServiceImpl(PatientProfileRepository repo) {
+        this.repo = repo;
     }
 
-    @Override
-    public PatientProfile createPatient(PatientProfile patientProfile) {
-        return patientProfileRepository.save(patientProfile);
+    public PatientProfile createPatient(PatientProfile profile) {
+        return repo.save(profile);
     }
 
-    @Override
-    public List<PatientProfile> getAllPatients() {
-        return patientProfileRepository.findAll();
-    }
-
-    @Override
     public PatientProfile getPatientById(Long id) {
-        return patientProfileRepository.findById(id).orElseThrow();
+        return repo.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Patient not found"));
     }
 
-    @Override
-    public PatientProfile updatePatient(Long id, PatientProfile patientProfile) {
-        PatientProfile existing = patientProfileRepository.findById(id).orElseThrow();
-        existing.setPatientName(patientProfile.getPatientName());
-        existing.setAge(patientProfile.getAge());
-        existing.setGender(patientProfile.getGender());
-        existing.setDiagnosis(patientProfile.getDiagnosis());
-        return patientProfileRepository.save(existing);
+    public List<PatientProfile> getAllPatients() {
+        return repo.findAll();
     }
 
-    @Override
-    public void deletePatient(Long id) {
-        patientProfileRepository.deleteById(id);
-    }
-    @Override
     public PatientProfile updatePatientStatus(Long id, boolean active) {
-        PatientProfile patient = patientProfileRepository.findById(id).orElseThrow();
-        patient.setActive(active);
-        return patientProfileRepository.save(patient);
+        PatientProfile p = getPatientById(id);
+        p.setActive(active);
+        return repo.save(p);
+    }
+
+    public Optional<PatientProfile> findByPatientId(String patientId) {
+        return repo.findByPatientId(patientId);
     }
 }
