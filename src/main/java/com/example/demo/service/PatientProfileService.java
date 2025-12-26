@@ -1,20 +1,13 @@
 package com.example.demo.service;
 
 import com.example.demo.model.PatientProfile;
-import java.util.List;
+
+import java.util.*;
 
 public interface PatientProfileService {
-
-    PatientProfile createPatient(PatientProfile patientProfile);
-
-    List<PatientProfile> getAllPatients();
-
+    PatientProfile createPatient(PatientProfile profile);
     PatientProfile getPatientById(Long id);
-
-    PatientProfile updatePatient(Long id, PatientProfile patientProfile);
-
-    // 🔴 REQUIRED BY TEST
+    List<PatientProfile> getAllPatients();
     PatientProfile updatePatientStatus(Long id, boolean active);
-
-    void deletePatient(Long id);
+    Optional<PatientProfile> findByPatientId(String patientId);
 }
