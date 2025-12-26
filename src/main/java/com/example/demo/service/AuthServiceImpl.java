@@ -1,10 +1,10 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.dto.AuthResponse;
+import com.example.demo.dto.RegisterRequest;
 import com.example.demo.model.AppUser;
 import com.example.demo.repository.AppUserRepository;
-import com.example.demo.security.JwtTokenProvider;
 import com.example.demo.service.AuthService;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -13,25 +13,25 @@ public class AuthServiceImpl implements AuthService {
 
     private final AppUserRepository appUserRepository;
     private final PasswordEncoder passwordEncoder;
-    private final AuthenticationManager authenticationManager;
-    private final JwtTokenProvider jwtTokenProvider;
 
-    public AuthServiceImpl(
-            AppUserRepository appUserRepository,
-            PasswordEncoder passwordEncoder,
-            AuthenticationManager authenticationManager,
-            JwtTokenProvider jwtTokenProvider
-    ) {
+    public AuthServiceImpl(AppUserRepository appUserRepository,
+                           PasswordEncoder passwordEncoder) {
         this.appUserRepository = appUserRepository;
         this.passwordEncoder = passwordEncoder;
-        this.authenticationManager = authenticationManager;
-        this.jwtTokenProvider = jwtTokenProvider;
     }
 
     @Override
-    public AppUser register(AppUser user) {
-        // Encode password before saving
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return appUserRepository.save(user);
+    public AuthResponse register(RegisterRequest request) {
+
+        AppUser user = AppUser.builder()
+                .name(request.getFullName())   // 👈 map fullName → name
+                .email(request.getEmail())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .role("PATIENT")
+                .build();
+
+        appUserRepository.save(user);
+
+        return new AuthResponse(user.getEmail(), "dummy-token");
     }
 }
