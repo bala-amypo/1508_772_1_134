@@ -1,39 +1,20 @@
 package com.example.demo.service;
 
 import com.example.demo.model.RecoveryCurveProfile;
-import com.example.demo.repository.RecoveryCurveProfileRepository;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
-public class RecoveryCurveProfileServiceImpl
-        implements RecoveryCurveProfileService {
+public interface RecoveryCurveProfileService {
 
-    private final RecoveryCurveProfileRepository repository;
+    RecoveryCurveProfile createProfile(RecoveryCurveProfile profile);
 
-    public RecoveryCurveProfileServiceImpl(RecoveryCurveProfileRepository repository) {
-        this.repository = repository;
-    }
+    List<RecoveryCurveProfile> getAllProfiles();
 
-    @Override
-    public RecoveryCurveProfile createProfile(RecoveryCurveProfile profile) {
-        return repository.save(profile);
-    }
+    RecoveryCurveProfile getProfileById(Long id);
 
-    @Override
-    public List<RecoveryCurveProfile> getAllProfiles() {
-        return repository.findAll();
-    }
+    List<RecoveryCurveProfile> getProfilesByMetricName(String metricName);
 
-    @Override
-    public RecoveryCurveProfile updateProfile(Long id, RecoveryCurveProfile profile) {
-        profile.setId(id);
-        return repository.save(profile);
-    }
+    RecoveryCurveProfile updateProfile(Long id, RecoveryCurveProfile profile);
 
-    @Override
-    public void deleteProfile(Long id) {
-        repository.deleteById(id);
-    }
+    void deleteProfile(Long id);
 }
