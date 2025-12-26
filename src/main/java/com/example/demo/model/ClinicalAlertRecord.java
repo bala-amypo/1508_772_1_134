@@ -21,5 +21,6 @@ public class ClinicalAlertRecord {
     private String severity;
     private String message;
 
+    @Builder.Default
     private Boolean resolved = false;
 }
