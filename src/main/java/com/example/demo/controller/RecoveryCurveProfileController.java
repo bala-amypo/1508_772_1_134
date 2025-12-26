@@ -2,57 +2,32 @@ package com.example.demo.controller;
 
 import com.example.demo.model.RecoveryCurveProfile;
 import com.example.demo.service.RecoveryCurveService;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/recovery-curves")
-public class RecoveryCurveProfileController {
+public class RecoveryCurveController {
 
-    @Autowired
-    private RecoveryCurveService recoveryCurveService;
+    private final RecoveryCurveService service;
+
+    public RecoveryCurveController(RecoveryCurveService service) {
+        this.service = service;
+    }
 
     @PostMapping
-    public ResponseEntity<RecoveryCurveProfile> createProfile(
-            @RequestBody RecoveryCurveProfile profile) {
-        return ResponseEntity.ok(recoveryCurveService.createProfile(profile));
+    public RecoveryCurveProfile create(@RequestBody RecoveryCurveProfile curve) {
+        return service.createCurveEntry(curve);
+    }
+
+    @GetMapping("/surgery/{type}")
+    public List<RecoveryCurveProfile> bySurgery(@PathVariable String type) {
+        return service.getCurveForSurgery(type);
     }
 
     @GetMapping
-    public ResponseEntity<List<RecoveryCurveProfile>> getAllProfiles() {
-        return ResponseEntity.ok(recoveryCurveService.getAllProfiles());
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<RecoveryCurveProfile> getProfileById(
-            @PathVariable Long id) {
-        return ResponseEntity.ok(recoveryCurveService.getProfileById(id));
-    }
-
-    @GetMapping("/metric/{metricName}")
-    public ResponseEntity<List<RecoveryCurveProfile>> getProfilesByMetric(
-            @PathVariable String metricName) {
-        return ResponseEntity.ok(
-                recoveryCurveService.getProfilesByMetricName(metricName)
-        );
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<RecoveryCurveProfile> updateProfile(
-            @PathVariable Long id,
-            @RequestBody RecoveryCurveProfile profile) {
-        return ResponseEntity.ok(
-                recoveryCurveService.updateProfile(id, profile)
-        );
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteProfile(@PathVariable Long id) {
-        recoveryCurveService.deleteProfile(id);
-        return ResponseEntity.ok("Recovery curve profile deleted successfully");
+    public List<RecoveryCurveProfile> all() {
+        return service.getAllCurves();
     }
 }
