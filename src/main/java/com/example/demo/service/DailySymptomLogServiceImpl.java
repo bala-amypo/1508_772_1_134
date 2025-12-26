@@ -1,55 +1,43 @@
-package com.example.demo.service;
+package com.example.demo.service.impl;
 
-import com.example.demo.model.DailySymptomLog;
-import com.example.demo.repository.DailySymptomLogRepository;
-import com.example.demo.repository.PatientProfileRepository;
-import org.springframework.stereotype.Service;
+import com.example.demo.exception.ResourceNotFoundException;
+import com.example.demo.model.DeviationRule;
+import com.example.demo.repository.DeviationRuleRepository;
+import com.example.demo.service.DeviationRuleService;
 
-import java.time.LocalDate;
-import java.util.List;
+import java.util.*;
 
-@Service
-public class DailySymptomLogServiceImpl implements DailySymptomLogService {
+public class DeviationRuleServiceImpl implements DeviationRuleService {
 
-    private DailySymptomLogRepository dailySymptomLogRepository;
-    private PatientProfileRepository patientProfileRepository;
+    private final DeviationRuleRepository repo;
 
-    // REQUIRED BY TESTS
-    public DailySymptomLogServiceImpl(
-            DailySymptomLogRepository dailySymptomLogRepository,
-            PatientProfileRepository patientProfileRepository
-    ) {
-        this.dailySymptomLogRepository = dailySymptomLogRepository;
-        this.patientProfileRepository = patientProfileRepository;
+    public DeviationRuleServiceImpl(DeviationRuleRepository repo) {
+        this.repo = repo;
     }
 
-    // REQUIRED BY SPRING / TESTS
-    public DailySymptomLogServiceImpl() {
+    public DeviationRule createRule(DeviationRule rule) {
+        if (rule.getThreshold() == null || rule.getThreshold() <= 0) {
+            throw new IllegalArgumentException("Threshold must be positive");
+        }
+        return repo.save(rule);
     }
 
-    @Override
-    public DailySymptomLog createLog(DailySymptomLog log) {
-        return dailySymptomLogRepository.save(log);
+    public DeviationRule updateRule(Long id, DeviationRule rule) {
+        DeviationRule existing = repo.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Rule not found"));
+        rule.setId(existing.getId());
+        return repo.save(rule);
     }
 
-    @Override
-    public List<DailySymptomLog> getAllLogs() {
-        return dailySymptomLogRepository.findAll();
+    public List<DeviationRule> getAllRules() {
+        return repo.findAll();
     }
 
-    @Override
-    public DailySymptomLog getLogById(Long id) {
-        return dailySymptomLogRepository.findById(id).orElse(null);
+    public List<DeviationRule> getActiveRules() {
+        return repo.findByActiveTrue();
     }
 
-    @Override
-    public List<DailySymptomLog> getLogsByDate(LocalDate date) {
-        return dailySymptomLogRepository.findByLogDate(date);
-    }
-
-    // 🔴 THIS METHOD WAS MISSING → NOW FIXED
-    @Override
-    public List<DailySymptomLog> getLogsBySeverity(String severity) {
-        return dailySymptomLogRepository.findBySeverity(severity);
+    public Optional<DeviationRule> getRuleByCode(String ruleCode) {
+        return repo.findByRuleCode(ruleCode);
     }
 }
