@@ -33,7 +33,7 @@ public class AppUserServiceImpl implements AppUserService {
     @Override
     public AppUser updateUser(Long id, AppUser user) {
         AppUser existingUser = appUserRepository.findById(id).orElseThrow();
-        existingUser.setName(user.getName());
+        existingUser.setName(user.getFullName());
         existingUser.setEmail(user.getEmail());
         existingUser.setPassword(user.getPassword());
         existingUser.setRole(user.getRole());
