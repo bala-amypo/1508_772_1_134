@@ -8,10 +8,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/recovery-curves")
-public class RecoveryCurveProfileController {
+public class RecoveryCurveController {
 
     private final RecoveryCurveService service;
 
+    // ✅ Constructor name MATCHES class name
     public RecoveryCurveController(RecoveryCurveService service) {
         this.service = service;
     }
