@@ -1,48 +1,28 @@
-package com.example.demo.service;
+package com.example.demo.service.impl;
 
 import com.example.demo.model.RecoveryCurveProfile;
 import com.example.demo.repository.RecoveryCurveProfileRepository;
-import org.springframework.stereotype.Service;
+import com.example.demo.service.RecoveryCurveService;
 
 import java.util.List;
 
-@Service
 public class RecoveryCurveServiceImpl implements RecoveryCurveService {
 
-    private final RecoveryCurveProfileRepository repository;
+    private final RecoveryCurveProfileRepository repo;
 
-    public RecoveryCurveServiceImpl(RecoveryCurveProfileRepository repository) {
-        this.repository = repository;
+    public RecoveryCurveServiceImpl(RecoveryCurveProfileRepository repo) {
+        this.repo = repo;
     }
 
-    @Override
-    public RecoveryCurveProfile createProfile(RecoveryCurveProfile profile) {
-        return repository.save(profile);
+    public RecoveryCurveProfile createCurveEntry(RecoveryCurveProfile curve) {
+        return repo.save(curve);
     }
 
-    @Override
-    public RecoveryCurveProfile getProfileById(Long id) {
-        return repository.findById(id).orElse(null);
+    public List<RecoveryCurveProfile> getCurveForSurgery(String surgeryType) {
+        return repo.findBySurgeryTypeOrderByDayNumberAsc(surgeryType);
     }
 
-    @Override
-    public List<RecoveryCurveProfile> getAllProfiles() {
-        return repository.findAll();
-    }
-
-    @Override
-    public List<RecoveryCurveProfile> getProfilesByMetricName(String metricName) {
-        return repository.findByMetricName(metricName);
-    }
-
-    @Override
-    public RecoveryCurveProfile updateProfile(Long id, RecoveryCurveProfile profile) {
-        profile.setId(id);
-        return repository.save(profile);
-    }
-
-    @Override
-    public void deleteProfile(Long id) {
-        repository.deleteById(id);
+    public List<RecoveryCurveProfile> getAllCurves() {
+        return repo.findAll();
     }
 }
