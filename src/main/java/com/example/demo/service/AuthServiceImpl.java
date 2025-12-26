@@ -3,21 +3,25 @@ package com.example.demo.service.impl;
 import com.example.demo.model.AppUser;
 import com.example.demo.service.AuthService;
 import org.springframework.stereotype.Service;
-
 @Service
-public class AuthServiceImpl implements AuthService {
+public class AuthServiceImpl {
 
-    @Override
-    public AppUser login(String email, String password) {
-        return AppUser.builder()
-                .email(email)
-                .password(password)
-                .role("USER")
-                .build();
-    }
+    private final AppUserRepository appUserRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final AuthenticationManager authenticationManager;
+    private final JwtTokenProvider jwtTokenProvider;
 
-    @Override
-    public AppUser register(AppUser user) {
-        return user;
+    // ✅ REQUIRED constructor for tests
+    public AuthServiceImpl(
+            AppUserRepository appUserRepository,
+            PasswordEncoder passwordEncoder,
+            AuthenticationManager authenticationManager,
+            JwtTokenProvider jwtTokenProvider
+    ) {
+        this.appUserRepository = appUserRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.authenticationManager = authenticationManager;
+        this.jwtTokenProvider = jwtTokenProvider;
     }
 }
+
