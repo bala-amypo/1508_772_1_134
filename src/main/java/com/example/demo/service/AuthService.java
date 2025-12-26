@@ -5,5 +5,4 @@ import com.example.demo.model.AppUser;
 public interface AuthService {
 
     AppUser register(AppUser user);
-
 }

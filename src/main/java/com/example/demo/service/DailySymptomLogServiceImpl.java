@@ -2,6 +2,8 @@ package com.example.demo.service;
 
 import com.example.demo.model.DailySymptomLog;
 import com.example.demo.repository.DailySymptomLogRepository;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -10,11 +12,8 @@ import java.util.List;
 @Service
 public class DailySymptomLogServiceImpl implements DailySymptomLogService {
 
-    private final DailySymptomLogRepository dailySymptomLogRepository;
-
-    public DailySymptomLogServiceImpl(DailySymptomLogRepository dailySymptomLogRepository) {
-        this.dailySymptomLogRepository = dailySymptomLogRepository;
-    }
+    @Autowired
+    private DailySymptomLogRepository dailySymptomLogRepository;
 
     @Override
     public DailySymptomLog createLog(DailySymptomLog log) {
