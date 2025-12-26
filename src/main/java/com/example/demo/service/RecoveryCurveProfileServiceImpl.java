@@ -10,41 +10,30 @@ import java.util.List;
 public class RecoveryCurveProfileServiceImpl
         implements RecoveryCurveProfileService {
 
-    private final RecoveryCurveProfileRepository repo;
+    private final RecoveryCurveProfileRepository repository;
 
-    public RecoveryCurveProfileServiceImpl(
-            RecoveryCurveProfileRepository repo) {
-        this.repo = repo;
+    public RecoveryCurveProfileServiceImpl(RecoveryCurveProfileRepository repository) {
+        this.repository = repository;
     }
 
     @Override
     public RecoveryCurveProfile createProfile(RecoveryCurveProfile profile) {
-        return repo.save(profile);
+        return repository.save(profile);
     }
 
     @Override
     public List<RecoveryCurveProfile> getAllProfiles() {
-        return repo.findAll();
-    }
-
-    @Override
-    public RecoveryCurveProfile getProfileById(Long id) {
-        return repo.findById(id).orElse(null);
-    }
-
-    @Override
-    public List<RecoveryCurveProfile> getProfilesByMetricName(String metricName) {
-        return repo.findByMetricName(metricName);
+        return repository.findAll();
     }
 
     @Override
     public RecoveryCurveProfile updateProfile(Long id, RecoveryCurveProfile profile) {
         profile.setId(id);
-        return repo.save(profile);
+        return repository.save(profile);
     }
 
     @Override
     public void deleteProfile(Long id) {
-        repo.deleteById(id);
+        repository.deleteById(id);
     }
 }
