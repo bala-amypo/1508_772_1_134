@@ -5,7 +5,8 @@ import lombok.*;
 
 @Entity
 @Table(name = "app_users")
-@Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -15,9 +16,7 @@ public class AppUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
     private String email;
-
     private String password;
     private String fullName;
 
