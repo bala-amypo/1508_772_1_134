@@ -8,7 +8,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ClinicalAlertRecord {
+public class ClinicalAlert{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
