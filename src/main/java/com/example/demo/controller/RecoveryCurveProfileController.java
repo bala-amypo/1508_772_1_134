@@ -1,8 +1,7 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.RecoveryCurveProfile;
-import com.example.demo.service.RecoveryCurveProfileService;
-
+import com.example.demo.model.RecoveryCurve;
+import com.example.demo.service.RecoveryCurveService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
