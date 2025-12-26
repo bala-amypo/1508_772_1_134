@@ -1,7 +1,6 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
-import java.time.LocalDate;
 
 @Entity
 @Table(name = "recovery_curve_profile")
@@ -11,18 +10,16 @@ public class RecoveryCurveProfile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String metricName;
 
+    @Column(nullable = false)
     private Double expectedValue;
 
-    private Double lowerThreshold;
-
-    private Double upperThreshold;
-
-    private LocalDate recordedDate;
+    @Column(nullable = false)
+    private Integer timePoint;   // ✅ THIS WAS MISSING
 
     public RecoveryCurveProfile() {
-        this.recordedDate = LocalDate.now();
     }
 
     public Long getId() {
@@ -49,27 +46,11 @@ public class RecoveryCurveProfile {
         this.expectedValue = expectedValue;
     }
 
-    public Double getLowerThreshold() {
-        return lowerThreshold;
+    public Integer getTimePoint() {        // ✅ REQUIRED GETTER
+        return timePoint;
     }
 
-    public void setLowerThreshold(Double lowerThreshold) {
-        this.lowerThreshold = lowerThreshold;
-    }
-
-    public Double getUpperThreshold() {
-        return upperThreshold;
-    }
-
-    public void setUpperThreshold(Double upperThreshold) {
-        this.upperThreshold = upperThreshold;
-    }
-
-    public LocalDate getRecordedDate() {
-        return recordedDate;
-    }
-
-    public void setRecordedDate(LocalDate recordedDate) {
-        this.recordedDate = recordedDate;
+    public void setTimePoint(Integer timePoint) {   // ✅ REQUIRED SETTER
+        this.timePoint = timePoint;
     }
 }
