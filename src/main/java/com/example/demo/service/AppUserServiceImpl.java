@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class AppUserServiceImpl {
+public class AppUserServiceImpl implements AppUserService {
 
     private final AppUserRepository appUserRepository;
 
@@ -15,21 +15,40 @@ public class AppUserServiceImpl {
         this.appUserRepository = appUserRepository;
     }
 
+    @Override
+    public AppUser createUser(AppUser user) {
+        return appUserRepository.save(user);
+    }
+
+    @Override
     public List<AppUser> getAllUsers() {
         return appUserRepository.findAll();
     }
 
-    public AppUser updateUser(Long id, AppUser user) {
+    @Override
+    public AppUser getUserById(Long id) {
+        return appUserRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+    }
 
+    @Override
+    public AppUser updateUser(Long id, AppUser user) {
         AppUser existingUser = appUserRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        // ✅ FIXED: correct setter
         existingUser.setFullName(user.getFullName());
         existingUser.setEmail(user.getEmail());
         existingUser.setPassword(user.getPassword());
         existingUser.setRole(user.getRole());
 
         return appUserRepository.save(existingUser);
+    }
+
+    @Override
+    public void deleteUser(Long id) {
+        if (!appUserRepository.existsById(id)) {
+            throw new RuntimeException("User not found");
+        }
+        appUserRepository.deleteById(id);
     }
 }
