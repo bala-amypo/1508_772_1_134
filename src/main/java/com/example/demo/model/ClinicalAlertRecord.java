@@ -4,11 +4,12 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ClinicalAlert{
+public class ClinicalAlertRecord {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
