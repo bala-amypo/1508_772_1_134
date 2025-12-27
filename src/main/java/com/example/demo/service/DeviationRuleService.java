@@ -2,7 +2,9 @@ package com.example.demo.service;
 
 import com.example.demo.model.DeviationRule;
 import java.util.*;
+import org.springframework.stereotype.Service;
 
+@Service
 public interface DeviationRuleService {
     DeviationRule createRule(DeviationRule rule);
     DeviationRule updateRule(Long id, DeviationRule rule);
