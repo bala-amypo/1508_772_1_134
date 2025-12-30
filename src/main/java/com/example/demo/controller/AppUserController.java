@@ -44,3 +44,4 @@ public class AppUserController {
         return ResponseEntity.ok("User deleted successfully");
     }
 }
+`
